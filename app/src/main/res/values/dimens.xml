@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="photo_crop_width">280dip</dimen>
+    <dimen name="photo_crop_stroke_width">1dip</dimen>
+    <dimen name="photo_preview_size">200dip</dimen>
+    <dimen name="slidingmenu_offset">60dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
+    <dimen name="shadow_width">15dp</dimen>
+
+    <integer name="AnimTime">@android:integer/config_mediumAnimTime</integer>
+
+    <dimen name="image_detail_pager_margin">80dp</dimen>
+
+    <!-- Doctor profile -->
+    <dimen name="header_height">198dp</dimen>
+    <dimen name="min_header_height">150dp</dimen>
+    <dimen name="header_logo_size">100dp</dimen>
+
+    <!-- Practice profile -->
+    <dimen name="header_height_practice">298dp</dimen>
+    <dimen name="min_header_height_practice">200dp</dimen>
+    <dimen name="custom_profile_image">50dp</dimen>
+    <dimen name="custom_profile_padding">2dp</dimen>
+    <dimen name="rippleStrokeWidth">2dp</dimen>
+    <dimen name="rippleRadius">64dp</dimen>
+    <dimen name="navigation_drawer_width">240dp</dimen>
+
+</resources>

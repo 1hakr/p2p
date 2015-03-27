@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/searchWindowBackgroundColor"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="68dp"
+    android:paddingLeft="10dp"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:text="Menut item"
+            android:gravity="center_vertical"
+            android:fontFamily="sans-serif"
+            android:textStyle="bold"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/details"
+        style="@style/BorderlessButtonFabric"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:fontFamily="sans-serif-condensed"
+        android:paddingLeft="10dp"/>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:padding="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:background="@drawable/circle_border_green"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:text="450"
+                android:layout_margin="10dp"
+                android:textSize="22sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:id="@+id/calorie" />
+            <TextView
+                android:background="@drawable/rectangle_border_green"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CALORIES"
+                android:textSize="14sp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:gravity="center"
+                android:fontFamily="sans-serif-condensed"
+                android:textColor="@color/white"
+                android:layout_gravity="center_horizontal|bottom"  />
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_height="wrap_content">
+        <TextView
+            android:background="@drawable/circle_border_brown"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="45%"
+            android:layout_margin="10dp"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:id="@+id/fat" />
+            <TextView
+                android:background="@drawable/rectangle_border_brown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FAT"
+                android:textSize="14sp"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_gravity="center_horizontal|bottom" />
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+    <TextView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:listSeparatorTextViewStyle"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="INGREDIENTS"  />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:textColor="#89000000"
+        android:layout_margin="20dp"
+        android:id="@+id/ingredients" />
+
+
+</LinearLayout>

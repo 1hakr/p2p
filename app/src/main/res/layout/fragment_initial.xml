@@ -1,0 +1,78 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.p2p.InitialFragment">
+
+
+    <fragment
+        android:id="@+id/map"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/initialContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" >
+
+            <FrameLayout
+                android:id="@+id/loadingContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" >
+
+                <com.p2p.ui.RippleBackground
+                    android:id="@+id/rippleBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:rb_color="@color/colorPrimary"
+                    app:rb_duration="3000"
+                    app:rb_radius="32dp"
+                    app:rb_rippleAmount="4"
+                    app:rb_scale="6">
+
+                    <ImageView
+                        android:id="@+id/centerImage"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_restaurant_white" />
+                </com.p2p.ui.RippleBackground>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/retryContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/searchHintColor"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Try Again" />
+            </FrameLayout>
+        </FrameLayout>
+
+
+    </FrameLayout>
+
+</FrameLayout>

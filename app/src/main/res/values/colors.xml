@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="practo_blue">#02a6d8</color>
+    <color name="practo_green">#99cc00</color>
+    <color name="practo_red">#FF4444</color>
+    <color name="colorPrimary">#dcab8d</color>
+    <color name="colorPrimaryDark">#ffdc9d83</color>
+    <color name="colorAccent">#ffffffff</color>
+    <color name="today_date">#555555</color>
+    <color name="highlight">#99fff8e2</color>
+    <color name="white">#FFFFFF</color>
+    <color name="cancelled_appt_bg">#f1f1f1</color>
+    <color name="black">#000000</color>
+    <color name="grey">#222222</color>
+    <color name="grey_cal">#bcbcbc</color>
+    <color name="dark_grey">#5d5d5d</color>
+    <color name="header_grey">#484848</color>
+    <color name="dropdown_selected">#CEF6F5</color>
+    <color name="today_color">#fffadf</color>
+    <color name="pressed">#CCFFFFFF</color>
+    <color name="searchHintColor">#cccccc</color>
+
+    <drawable name="transparent_background">#00000000</drawable>
+
+    <color name="grid_state_pressed">#BB0088bb</color>
+    <color name="grid_state_focused">#770088bb</color>
+    <color name="image_background">#282828</color>
+
+    <drawable name="ab_bg">#aa000000</drawable>
+
+    <color name="text_disabled">#606060</color>
+    <color name="textColor">#333333</color>
+    <color name="menuBackgroundColor">#283544</color>
+    <color name="annotationsBackground">#87333333</color>
+    <color name="settingLineSeperator">#465d77</color>
+    <color name="traslucentBackground">#CC000000</color>
+    <color name="textColorLight">#999999</color>
+
+    <!-- Photo Viewer Colors -->
+    <color name="solid_black">#ff000000</color>
+    <color name="photo_crop_dim_color">#cc000000</color>
+    <color name="photo_crop_highlight_color">#fff</color>
+    <color name="calendar_black">#666666</color>
+    <color name="calendar_grey">#bbbbbb</color>
+
+    <drawable name="spinnerBackground">#10141b</drawable>
+
+    <color name="searchTextColor">#484848</color>
+    <color name="searchBackgroundColor">#f0f2f2f2</color>
+    <color name="searchBackgroundColorFull">#fff2f2f2</color>
+    <color name="searchWindowBackgroundColor">#E8E8E8</color>
+    <color name="availableDayDiabledColor">#D3D3D3</color>
+
+    <!-- Background Drawable Colors -->
+    <color name="holo_pressed">#8002a6d8</color>
+    <color name="holo_focused">#4002a6d8</color>
+    <color name="holo_checked">@color/practo_blue</color>
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="WindowBackgroundColor">#F2F2F2</color>
+    <color name="slotTextColor">#4e4e4e</color>
+    <color name="appointment_cancelled">#f44</color>
+    <color name="appointment_confirmed">#690</color>
+    <color name="appointment_requested">#f80</color>
+    <color name="appointment_over">#292020</color>
+
+    <color name="rippelColor">#0099CC</color>
+</resources>

@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">p2p</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="app_ver">Pee Expert</string>
+    <string name="app_company">Developed By Default</string>
+    <string name="app_url">http://www.pee2pee.in</string>
+    <string name="app_about_info">To make a small difference.</string>
+    <string name="app_contrib">Contributions by \n @amitchhajer, @siddharthkp, @debarko, @1HaKr</string>
+    <string name="app_about">This app helps you nearest place to pee</string>
+    <string name="twitter"><a href="https://twitter.com/pee2pee">  Twitter</a></string>
+    <string name="gplus"><a href="https://plus.google.com/109240246596102887385">  Google+</a></string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="title_activity_menu_detail">MenuDetailActivity</string>
+    <string name="title_section1">What\'s nearby</string>
+    <string name="title_section2">My Reviews</string>
+    <string name="title_section3">My Favourites</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+</resources>
