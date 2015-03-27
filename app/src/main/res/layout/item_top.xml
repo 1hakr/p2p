@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@null"
-        android:src="@drawable/ic_restaurant"  />
+        android:src="@drawable/ic_p2p"  />
 
     <LinearLayout
         android:id="@+id/line1"

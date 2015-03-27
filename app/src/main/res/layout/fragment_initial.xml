@@ -48,7 +48,7 @@
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_centerInParent="true"
-                        android:src="@drawable/ic_restaurant_white" />
+                        android:src="@drawable/ic_p2p_white" />
                 </com.p2p.ui.RippleBackground>
 
             </FrameLayout>

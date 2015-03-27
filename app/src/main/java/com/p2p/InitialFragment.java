@@ -515,7 +515,7 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
 
         @Override
         protected void onBeforeClusterItemRendered(Place person, MarkerOptions markerOptions) {
-            mImageView.setImageResource(R.drawable.ic_restaurant);
+            mImageView.setImageResource(R.drawable.ic_p2p);
             Bitmap icon = mIconGenerator.makeIcon();
             markerOptions.icon(BitmapDescriptorFactory.fromBitmap(icon)).title(person.name);
         }

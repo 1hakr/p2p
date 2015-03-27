@@ -17,8 +17,8 @@
 
     <string name="title_activity_menu_detail">MenuDetailActivity</string>
     <string name="title_section1">What\'s nearby</string>
-    <string name="title_section2">My Reviews</string>
-    <string name="title_section3">My Favourites</string>
+    <string name="title_section2">My P\'Zones</string>
+    <string name="title_section3">My P\'File</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
