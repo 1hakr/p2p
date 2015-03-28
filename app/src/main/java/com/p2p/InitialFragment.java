@@ -44,7 +44,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -53,13 +52,11 @@ import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.ui.IconGenerator;
-import com.p2p.directions.GoogleParser;
 import com.p2p.directions.Route;
 import com.p2p.directions.Routing;
 import com.p2p.directions.RoutingListener;
 import com.p2p.entity.Places;
 import com.p2p.entity.Places.Place;
-import com.p2p.entity.RestaurantProfile;
 import com.p2p.misc.ErrorDialogFragment;
 import com.p2p.misc.GCMUtils;
 import com.p2p.misc.GeoLocation;
@@ -68,12 +65,9 @@ import com.p2p.misc.LocationUtils;
 import com.p2p.misc.Utils;
 //import com.p2p.restaurant.RestaurantProfileActivity;
 import com.p2p.ui.RippleBackground;
-import com.p2p.ui.seekbar.ComboSeekBar;
 import com.p2p.ui.seekbar.PhasedListener;
 import com.p2p.ui.seekbar.PhasedSeekBar;
 import com.p2p.ui.seekbar.SimplePhasedAdapter;
-
-import java.util.ArrayList;
 
 public class InitialFragment extends Fragment implements ConnectionCallbacks,
         OnConnectionFailedListener, LocationListener, OnMapReadyCallback, View.OnClickListener,
@@ -380,19 +374,14 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
 
     @Override
     public void onClusterItemInfoWindowClick(Place place) {
-        RestaurantProfile.Restaurant restaurant = new RestaurantProfile.Restaurant();
-        RestaurantProfile profile = new RestaurantProfile();
-        restaurant.name = place.name;
-        restaurant.image_url = "";
-        profile.places.add(0, restaurant);
 
         String latlong = "";//LocationUtils.getLatLng(getActivity(), location);
         Bundle bundle = new Bundle();
         bundle.putString(Utils.BUNDLE_LOCATION, latlong);
-        bundle.putSerializable(Utils.BUNDLE_RESTAURANT, profile);
-        //Intent intent = new Intent(getActivity(), RestaurantProfileActivity.class);
-        //intent.putExtras(bundle);
-        //getActivity().startActivity(intent);
+        bundle.putSerializable(Utils.BUNDLE_RESTAURANT, place);
+        Intent intent = new Intent(getActivity(), PzoneDetails.class);
+        intent.putExtras(bundle);
+        getActivity().startActivity(intent);
     }
 
     public class ReqestTask extends AsyncTask<Void, Void, Location>{
@@ -436,18 +425,16 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
         }
     }
 
-    private void showRestaurantDetails(Location location){
+    private void showFlush(Place place){
 
-        if(null != location){
-            String latlong = LocationUtils.getLatLng(getActivity(), location);
-            //Toast.makeText(getActivity(), "Location is: " + latLlong, Toast.LENGTH_SHORT).show();
-            getActivity().finish();
-            Bundle bundle = new Bundle();
-            bundle.putString(Utils.BUNDLE_LOCATION, latlong);
-            //Intent intent = new Intent(getActivity(), RestaurantProfileActivity.class);
-            //intent.putExtras(bundle);
-            //getActivity().startActivity(intent);
-        }
+        //Toast.makeText(getActivity(), "Location is: " + latLlong, Toast.LENGTH_SHORT).show();
+        getActivity().finish();
+        Bundle bundle = new Bundle();
+        //bundle.putString(Utils.BUNDLE_LOCATION, latlong);
+        bundle.putSerializable(Utils.BUNDLE_RESTAURANT, place);
+        Intent intent = new Intent(getActivity(), FlushedActivity.class);
+        intent.putExtras(bundle);
+        getActivity().startActivity(intent);
     }
 
     private void showCurrentLocation(Location currentLocation){
@@ -504,7 +491,6 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
                 });
 
         P2PApplication.getInstance().addToRequestQueue(request, TAG);
-        P2PApplication.getInstance().getRequestQueue().start();
     }
 
     public void drawRestaurantsAround(Place place){
@@ -677,7 +663,7 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
                 break;
             case 2:
                 drawRestaurantsAround(currentPlaces.royal_pee);
-                startActivity(new Intent(getActivity(), FlushedActivity.class));
+                //showFlush(currentPlaces.royal_pee);
                 break;
         }
     }

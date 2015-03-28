@@ -3,6 +3,7 @@ package com.p2p.entity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +15,7 @@ public class Places {
     public Place can_wait = new Place();
     public Place royal_pee = new Place();
 
-    public class Place implements ClusterItem {
+    public class Place implements ClusterItem, Serializable {
         public String id = "";
         public String name = "";
         public String lat = "";

@@ -44,6 +44,11 @@ public class Utils {
     public static final String BUNDLE_MENU = "bundle_menu";
     public static final String BUNDLE_LOCATION = "bundle_latlong";
 
+    public static final String KEY_NAME = "key_name";
+    public static final String KEY_DEVICE_ID = "key_device_id";
+    public static final String KEY_PHOTO_URL = "key_photo_url";
+    public static final String KEY_PROFILE_ID = "key_profile_id";
+
     public static final String GOOGLE_PLACES_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
     public static final String GOOGLE_PHOTOS_URL = "https://maps.googleapis.com/maps/api/place/photo";
     public static final String GOOGLE_PLACES_API_KEY = "AIzaSyArBmLVB_OqHZAiQo7zoSzbnAiDjkPZ03o";

@@ -83,7 +83,7 @@ public class P2PApplication extends ActionBarApplication {
 			cacheParams.setMemCacheSizePercent(0.5f);
 
 			mImageFetcher = new SimpleImageLoader(getApplicationContext(), cacheParams);
-            mImageFetcher.setDefaultDrawable(R.drawable.empty_photo);
+            mImageFetcher.setDefaultDrawable(R.drawable.ic_person);
 			mImageFetcher.setMaxImageSize(Utils.hasMoreHeap() ? Utils.IMAGE_SIZE_BIG: Utils.IMAGE_SIZE);
 			mImageFetcher.setFadeInImage(false);
 		}
