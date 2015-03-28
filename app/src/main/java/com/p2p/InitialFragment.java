@@ -36,6 +36,7 @@ import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
@@ -45,26 +46,39 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.clustering.Cluster;
 import com.google.maps.android.clustering.ClusterManager;
 import com.google.maps.android.clustering.view.DefaultClusterRenderer;
 import com.google.maps.android.ui.IconGenerator;
+import com.p2p.directions.GoogleParser;
+import com.p2p.directions.Route;
+import com.p2p.directions.Routing;
+import com.p2p.directions.RoutingListener;
 import com.p2p.entity.Places;
 import com.p2p.entity.Places.Place;
 import com.p2p.entity.RestaurantProfile;
 import com.p2p.misc.ErrorDialogFragment;
 import com.p2p.misc.GCMUtils;
+import com.p2p.misc.GeoLocation;
 import com.p2p.misc.LocationHelper;
 import com.p2p.misc.LocationUtils;
 import com.p2p.misc.Utils;
 //import com.p2p.restaurant.RestaurantProfileActivity;
 import com.p2p.ui.RippleBackground;
+import com.p2p.ui.seekbar.ComboSeekBar;
+import com.p2p.ui.seekbar.PhasedListener;
+import com.p2p.ui.seekbar.PhasedSeekBar;
+import com.p2p.ui.seekbar.SimplePhasedAdapter;
+
+import java.util.ArrayList;
 
 public class InitialFragment extends Fragment implements ConnectionCallbacks,
         OnConnectionFailedListener, LocationListener, OnMapReadyCallback, View.OnClickListener,
         ClusterManager.OnClusterItemClickListener<Place>,
-        ClusterManager.OnClusterItemInfoWindowClickListener<Place>{
+        ClusterManager.OnClusterItemInfoWindowClickListener<Place>, RoutingListener, PhasedListener {
 
     public static final int SEARCH_RADIUS = 800;
     private static final String TAG = "InitialFragment";
@@ -73,6 +87,7 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     private boolean myLocation;
+    private boolean pathDrawn;
     private FusedLocationProviderApi fusedLocationProviderApi = LocationServices.FusedLocationApi;
     private GoogleMap mMap;
     private int mStrokeColor;
@@ -84,6 +99,9 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
     private View retryContainer;
     private Button retry;
     private RippleBackground rippleBackground;
+    private LatLng current;
+    private PhasedSeekBar seekbar;
+    private Places currentPlaces;
 
     public static InitialFragment newInstance() {
         InitialFragment fragment = new InitialFragment();
@@ -118,6 +136,14 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
         retry = (Button) view.findViewById(R.id.retry);
         retry.setOnClickListener(this);
 
+        seekbar = (PhasedSeekBar) view.findViewById(R.id.seekbar);
+        seekbar.setAdapter(new SimplePhasedAdapter(getResources(), new int[] {
+                R.drawable.one_selector,
+                R.drawable.two_selector,
+                R.drawable.three_selector}));
+
+        seekbar.setListener(this);
+        seekbar.setPosition(0);
         rippleBackground = (RippleBackground)view.findViewById(R.id.rippleBackground);
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -173,7 +199,7 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
         fusedLocationProviderApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         if (checkLocationServices()) {
             Location currentLocation = fusedLocationProviderApi.getLastLocation(mGoogleApiClient);
-            getGeoLocation(true);
+            getGeoLocation(false);
         }
     }
 
@@ -186,8 +212,12 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
 
     @Override
     public void onLocationChanged(Location location) {
-        if (checkLocationServices()){// && !workingOnLocation) {
-            getGeoLocation(false);
+        if (checkLocationServices()) {
+            if(pathDrawn){
+                currentLocationSource.onLocationChanged(new LatLng(location.getLatitude(), location.getLongitude()));
+            } else {
+                getGeoLocation(false);
+            }
         }
     }
 
@@ -232,8 +262,8 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
         loadingContainer.setVisibility(View.VISIBLE);
         initialContainer.setVisibility(View.VISIBLE);
         if (!checkLocationServices()) {
-            //checkOrEnableLocationServices();
-            new ReqestTask().execute();
+            checkOrEnableLocationServices();
+            //new ReqestTask().execute();
         } else {
             Toast.makeText(getActivity(), "Waiting for Location", Toast.LENGTH_SHORT).show();
             getGeoLocation(false);
@@ -243,7 +273,7 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
     public void getGeoLocation(boolean silently) {
         boolean gpsConnected = servicesConnected();
         boolean locationAvailable = isMyLocationAvailable();
-        if (gpsConnected && !locationAvailable) {
+        if (!silently && gpsConnected && !locationAvailable) {
             Location currentLocation = fusedLocationProviderApi.getLastLocation(mGoogleApiClient);
             if(null != currentLocation){
                 myLocation = true;
@@ -254,7 +284,7 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
                 new ReqestTask().execute();
             }
         } else {
-            new ReqestTask().execute();
+            new RequestRelaxedTask().execute();
         }
     }
 
@@ -277,6 +307,15 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
         mMap.setContentDescription("Map with restaurants");
         mMap.setLocationSource(currentLocationSource);
         mMap.setMyLocationEnabled(true);
+        mClusterManager = new ClusterManager<Place>(getActivity(), getMap());
+        mClusterManager.setRenderer(new PlaceRenderer());
+        getMap().setOnCameraChangeListener(mClusterManager);
+        getMap().setOnMarkerClickListener(mClusterManager);
+        getMap().setOnInfoWindowClickListener(mClusterManager);
+
+        mClusterManager.setOnClusterItemClickListener(this);
+        mClusterManager.setOnClusterItemInfoWindowClickListener(this);
+
     }
 
     public boolean checkOrEnableLocationServices() {
@@ -290,13 +329,14 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
                             Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                             startActivity(myIntent);
                         }
-                    }).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    }).
+                    setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    getGeoLocation(false);
-                }
-            }).show();
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            getGeoLocation(true);
+                        }
+                    }).show();
             return false;
         } else {
             return true;
@@ -364,13 +404,35 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return LocationHelper.getLocation(getActivity());
+            return new GeoLocation(getActivity()).getPlayServiceLastLocation(true);
+            //return LocationHelper.getLocation(getActivity());
         }
 
         @Override
         protected void onPostExecute(Location location) {
             super.onPostExecute(location);
             showCurrentLocation(location);
+        }
+    }
+
+    public class RequestRelaxedTask extends AsyncTask<Void, Void, Location>{
+
+        @Override
+        protected Location doInBackground(Void... voids) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return Utils.isActivityAlive(getActivity()) ? LocationHelper.getLocation(getActivity()) : null;
+        }
+
+        @Override
+        protected void onPostExecute(Location location) {
+            super.onPostExecute(location);
+            if(null != location) {
+                showCurrentLocation(location);
+            }
         }
     }
 
@@ -399,17 +461,11 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
     }
 
     private void showCurrentLocation(LatLng currentLocation){
+        current = currentLocation;
         rippleBackground.stopRippleAnimation();
         initialContainer.setVisibility(View.GONE);
         if(null != mMap) {
             currentLocationSource.onLocationChanged(currentLocation);
-            mMap.addCircle(new CircleOptions()
-                    .center(currentLocation)
-                    .radius(SEARCH_RADIUS * 1.2)
-                    .strokeColor(Color.RED)
-                    .fillColor(mFillColor)
-                    .strokeWidth(4));
-
             CameraPosition comerCameraPosition =
                     new CameraPosition.Builder().target((currentLocation))
                             .zoom(14)
@@ -422,26 +478,28 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
 
     public void getRestaurantsAround(Location location){
         final ArrayMap<String, String> param = new ArrayMap<String, String>();
-        param.put("key", Utils.GOOGLE_PLACES_API_KEY);
-        param.put("radius", "500");
-        param.put("types", "restaurant");
-        param.put("location", LocationUtils.getLatLng(getActivity(), location));
+        param.put("lat", location.getLatitude() + "");
+        param.put("lng", location.getLongitude() + "");
+        param.put("gender", "male");
 
         GsonRequest<Places> request = new GsonRequest<Places>(Request.Method.GET,
-                Utils.GOOGLE_PLACES_URL,
+                Utils.API_URL + "/places",
                 Places.class,
                 null,
                 param,
                 new Response.Listener<Places>() {
                     @Override
                     public void onResponse(Places places) {
-                        drawRestaurantsAround(places);
+                        currentPlaces = places;
+                        seekbar.setPosition(0);
+                        onPositionSelected(0);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), "No Restaurants found", Toast.LENGTH_LONG).show();
+                        if(Utils.isActivityAlive(getActivity()))
+                        Toast.makeText(getActivity(), "No Pee Places found", Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -449,18 +507,41 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
         P2PApplication.getInstance().getRequestQueue().start();
     }
 
-    public void drawRestaurantsAround(Places places){
-        mClusterManager = new ClusterManager<Place>(getActivity(), getMap());
-        mClusterManager.setRenderer(new PlaceRenderer());
-        getMap().setOnCameraChangeListener(mClusterManager);
-        getMap().setOnMarkerClickListener(mClusterManager);
-        getMap().setOnInfoWindowClickListener(mClusterManager);
-
-        mClusterManager.setOnClusterItemClickListener(this);
-        mClusterManager.setOnClusterItemInfoWindowClickListener(this);
-
-        mClusterManager.addItems(places.results);
+    public void drawRestaurantsAround(Place place){
+        pathDrawn = true;
+        getMap().clear();
+        mClusterManager.clearItems();
+        mClusterManager.addItem(place);
         mClusterManager.cluster();
+        drawRoute(place.getPosition());
+    }
+
+    public void drawRoute(LatLng destination){
+        if(null == current){
+            return;
+        }
+        LatLng start = current;
+        Routing routing = new Routing(Routing.TravelMode.DRIVING);
+        routing.registerListener(this);
+        routing.execute(start, destination);
+
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(start);
+        builder.include(destination);
+
+        changeCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 200));
+    }
+
+    private void changeCamera(CameraUpdate update) {
+        changeCamera(update, null, true);
+    }
+
+    private void changeCamera(CameraUpdate update, GoogleMap.CancelableCallback callback, boolean animate) {
+        if (animate) {
+            getMap().animateCamera(update, callback);
+        } else {
+            getMap().moveCamera(update);
+        }
     }
 
     private static class CurrentLocationSource implements LocationSource{
@@ -557,5 +638,47 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
 
     protected GoogleMap getMap() {
         return mMap;
+    }
+
+
+    @Override
+    public void onRoutingFailure() {
+
+    }
+
+    @Override
+    public void onRoutingStart() {
+
+    }
+
+    @Override
+    public void onRoutingSuccess(PolylineOptions mPolyOptions, Route route) {
+        if (isAdded() && isVisible()) {
+            PolylineOptions polyoptions = new PolylineOptions();
+            polyoptions.color(getResources().getColor(R.color.practo_blue));
+            polyoptions.width(20);
+            polyoptions.addAll(mPolyOptions.getPoints());
+            getMap().addPolyline(polyoptions);
+        }
+    }
+
+    @Override
+    public void onPositionSelected(int position) {
+
+        if(null == currentPlaces){
+            return;
+        }
+        switch (position){
+            case 0:
+                drawRestaurantsAround(currentPlaces.now);
+                break;
+            case 1:
+                drawRestaurantsAround(currentPlaces.can_wait);
+                break;
+            case 2:
+                drawRestaurantsAround(currentPlaces.royal_pee);
+                startActivity(new Intent(getActivity(), FlushedActivity.class));
+                break;
+        }
     }
 }

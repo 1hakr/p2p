@@ -43,7 +43,10 @@
             android:label="About"
             android:theme="@style/AppTheme.About"
             android:uiOptions="splitActionBarWhenNarrow" />
-
+        <activity
+            android:name=".FlushedActivity"
+            android:label="@string/title_activity_flushed" >
+        </activity>
     </application>
 
 </manifest>

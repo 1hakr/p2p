@@ -189,7 +189,7 @@ public class ViewDragHelper {
          * <p>Calling code may decide to fling or otherwise release the view to let it
          * settle into place. It should do so using {@link #settleCapturedViewAt(int, int)}
          * or {@link #flingCapturedView(int, int, int, int)}. If the Callback invokes
-         * one of these methods, the ViewDragHelper will enter {@link #STATE_SETTLING}
+         * one_normal of these methods, the ViewDragHelper will enter {@link #STATE_SETTLING}
          * and the view capture will not fully end until it comes to a complete stop.
          * If neither of these methods is invoked before <code>onViewReleased</code> returns,
          * the view will stop in place and the ViewDragHelper will return to
@@ -202,7 +202,7 @@ public class ViewDragHelper {
         public void onViewReleased(View releasedChild, float xvel, float yvel) {}
 
         /**
-         * Called when one of the subscribed edges in the parent view has been touched
+         * Called when one_normal of the subscribed edges in the parent view has been touched
          * by the user while no child view is currently captured.
          *
          * @param edgeFlags A combination of edge flags describing the edge(s) currently touched
@@ -228,7 +228,7 @@ public class ViewDragHelper {
         }
 
         /**
-         * Called when the user has started a deliberate drag away from one
+         * Called when the user has started a deliberate drag away from one_normal
          * of the subscribed edges in the parent view while no child view is currently captured.
          *
          * @param edgeFlags A combination of edge flags describing the edge(s) dragged
@@ -414,7 +414,7 @@ public class ViewDragHelper {
     }
 
     /**
-     * Retrieve the current drag state of this helper. This will return one of
+     * Retrieve the current drag state of this helper. This will return one_normal of
      * {@link #STATE_IDLE}, {@link #STATE_DRAGGING} or {@link #STATE_SETTLING}.
      * @return The current drag state
      */
@@ -854,7 +854,7 @@ public class ViewDragHelper {
      *
      * <p>The state used to report this information is populated by the methods
      * {@link #shouldInterceptTouchEvent(android.view.MotionEvent)} or
-     * {@link #processTouchEvent(android.view.MotionEvent)}. If one of these methods has not
+     * {@link #processTouchEvent(android.view.MotionEvent)}. If one_normal of these methods has not
      * been called for all relevant MotionEvents to track, the information reported
      * by this method may be stale or incorrect.</p>
      *
@@ -983,7 +983,7 @@ public class ViewDragHelper {
 
                 saveInitialMotion(x, y, pointerId);
 
-                // A ViewDragHelper can only manipulate one view at a time.
+                // A ViewDragHelper can only manipulate one_normal view at a time.
                 if (mDragState == STATE_IDLE) {
                     final int edgesTouched = mInitialEdgesTouched[pointerId];
                     if ((edgesTouched & mTrackingEdges) != 0) {
@@ -1090,7 +1090,7 @@ public class ViewDragHelper {
 
                 saveInitialMotion(x, y, pointerId);
 
-                // A ViewDragHelper can only manipulate one view at a time.
+                // A ViewDragHelper can only manipulate one_normal view at a time.
                 if (mDragState == STATE_IDLE) {
                     // If we're idle we can do anything! Treat it like a normal down event.
 
@@ -1158,7 +1158,7 @@ public class ViewDragHelper {
                     for (int i = 0; i < pointerCount; i++) {
                         final int id = MotionEventCompat.getPointerId(ev, i);
                         if (id == mActivePointerId) {
-                            // This one's going away, skip.
+                            // This one_normal's going away, skip.
                             continue;
                         }
 
@@ -1271,7 +1271,7 @@ public class ViewDragHelper {
      * {@link #shouldInterceptTouchEvent(android.view.MotionEvent)} or
      * {@link #processTouchEvent(android.view.MotionEvent)}. You should only rely on
      * the results of this method after all currently available touch data
-     * has been provided to one of these two methods.</p>
+     * has been provided to one_normal of these two methods.</p>
      *
      * @param directions Combination of direction flags, see {@link #DIRECTION_HORIZONTAL},
      *                   {@link #DIRECTION_VERTICAL}, {@link #DIRECTION_ALL}
@@ -1295,7 +1295,7 @@ public class ViewDragHelper {
      * {@link #shouldInterceptTouchEvent(android.view.MotionEvent)} or
      * {@link #processTouchEvent(android.view.MotionEvent)}. You should only rely on
      * the results of this method after all currently available touch data
-     * has been provided to one of these two methods.</p>
+     * has been provided to one_normal of these two methods.</p>
      *
      * @param directions Combination of direction flags, see {@link #DIRECTION_HORIZONTAL},
      *                   {@link #DIRECTION_VERTICAL}, {@link #DIRECTION_ALL}

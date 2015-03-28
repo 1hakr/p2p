@@ -68,8 +68,6 @@ public class GeoLocation {
                                LOCATION_PRIORITY="location_priority",
                                LOCATION_LOCALITY="location_locality",
                                LOCATION_CITY="location_city";
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mEditor;
     public static final int LOCATION_USER_WEIGHT = 2,LOCATION_AUTO_WEIGHT = 1;
 
     private String mGeoLatitude,mGeoLongitude;
@@ -79,14 +77,6 @@ public class GeoLocation {
     }
     public GeoLocation(Context context){
         this.context = context;
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        mEditor = mSharedPreferences.edit();
-        initCityNameMapping();
-    }
-
-    private void initCityNameMapping(){
-        localCityNameMap.put("Bengaluru","Bangalore");
-        localCityNameMap.put("New Delhi","Delhi");
     }
 
     public Location getAvailableLocation(boolean isNeedLiveLoc) throws Exception {

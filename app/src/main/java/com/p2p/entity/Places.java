@@ -10,34 +10,21 @@ import java.util.ArrayList;
  */
 public class Places {
 
-    public ArrayList<Place> results = new ArrayList<Place>();
-    public String status = ""; //"OK"
+    public Place now = new Place();
+    public Place can_wait = new Place();
+    public Place royal_pee = new Place();
 
     public class Place implements ClusterItem {
-        public Geometry geometry = new Geometry();
+        public String id = "";
         public String name = "";
-        public String icon = "";
-        public String vicinity = "";
-        public ArrayList<String> types = new ArrayList<String>();
-        public ArrayList<Photo> photos = new ArrayList<Photo>();
+        public String lat = "";
+        public String lng = "";
+        public String type = "";
+        public String photo_url = "";
 
         @Override
         public LatLng getPosition() {
-            return new LatLng(Double.valueOf(geometry.location.lat), Double.valueOf(geometry.location.lng));
-        }
-
-        public class Photo{
-            public int height = 0;
-            public String photo_reference = "";
-        }
-
-        public class Geometry {
-            public Location location = new Location();
-
-            public class Location {
-                String lat = "";
-                String lng = "";
-            }
+            return new LatLng(Double.valueOf(lat), Double.valueOf(lng));
         }
     }
 }

@@ -94,7 +94,7 @@ public class GridView extends android.widget.GridView {
      * added. Views added using this call can take focus if they want.
      * <p>
      * NOTE: Call this before calling setAdapter. This is so HeaderGridView can wrap
-     * the supplied cursor with one that will also account for header views.
+     * the supplied cursor with one_normal that will also account for header views.
      *
      * @param v The view to add.
      * @param data Data to associate with this view
@@ -117,7 +117,7 @@ public class GridView extends android.widget.GridView {
         info.isSelectable = isSelectable;
         mHeaderViewInfos.add(info);
 
-        // in the case of re-adding a header view, or adding one later on,
+        // in the case of re-adding a header view, or adding one_normal later on,
         // we need to notify the observer
         if (adapter != null) {
             ((HeaderViewGridAdapter) adapter).notifyDataSetChanged();
@@ -130,7 +130,7 @@ public class GridView extends android.widget.GridView {
      * added. Views added using this call can take focus if they want.
      * <p>
      * NOTE: Call this before calling setAdapter. This is so HeaderGridView can wrap
-     * the supplied cursor with one that will also account for header views.
+     * the supplied cursor with one_normal that will also account for header views.
      *
      * @param v The view to add.
      */
@@ -205,7 +205,7 @@ public class GridView extends android.widget.GridView {
 
     /**
      * ListAdapter used when a HeaderGridView has header views. This ListAdapter
-     * wraps another one and also keeps track of the header views and their
+     * wraps another one_normal and also keeps track of the header views and their
      * associated data objects.
      *<p>This is intended as a base class; you will probably not need to
      * use this class directly in your own code.

@@ -38,9 +38,7 @@ public class Utils {
     public static final String IMAGE_CACHE_DIR = "thumbs";
     public static final String IMAGE_BG_CACHE_DIR = "bgs";
 
-    public static final String API_URL = "http://shifu.practodev.com:8089";
-    public static final String API_URL1 = "http://shifu.practodev.com:8090";
-    public static final String API_URL2 = "http://shifu.practodev.com:8087";
+    public static final String API_URL = "http://p2p.practodev.com";
     static final String TAG = "Utils";
     public static final String BUNDLE_RESTAURANT = "bundle_restaurant";
     public static final String BUNDLE_MENU = "bundle_menu";

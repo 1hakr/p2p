@@ -1043,7 +1043,7 @@ public class SlidingUpPanelLayout extends ViewGroup {
         super.draw(c);
 
         if (!isSlidingEnabled()) {
-            // No need to draw a shadow if we don't have one.
+            // No need to draw a shadow if we don't have one_normal.
             return;
         }
 
