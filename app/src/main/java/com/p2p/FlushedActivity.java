@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.GsonRequest;
+import com.p2p.entity.Check;
 import com.p2p.entity.Feedback;
 import com.p2p.entity.Places;
 import com.p2p.misc.Utils;
@@ -34,6 +35,7 @@ public class FlushedActivity extends ActionBarActivity {
     private ViewGroup feedback;
     private SharedPreferences mSharedPreferences;
     private Places.Place place;
+    private View king_message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class FlushedActivity extends ActionBarActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         wave = (WaveView) findViewById(R.id.wave);
         feedback = (ViewGroup) findViewById(R.id.feedback);
+        king_message = findViewById(R.id.king_message);
 
         checkin();
         animate();
@@ -105,16 +108,19 @@ public class FlushedActivity extends ActionBarActivity {
         param.put("place_id", place.id);
         param.put("profile_id", mSharedPreferences.getString(Utils.KEY_PROFILE_ID, "1"));
 
-        GsonRequest<Places> request = new GsonRequest<Places>(Request.Method.POST,
+        GsonRequest<Check> request = new GsonRequest<Check>(Request.Method.POST,
                 Utils.API_URL + "/checkin",
-                Places.class,
+                Check.class,
                 null,
                 param,
-                new Response.Listener<Places>() {
+                new Response.Listener<Check>() {
                     @Override
-                    public void onResponse(Places places) {
+                    public void onResponse(Check places) {
                         //if(Utils.isActivityAlive(FlushedActivity.this))
                             //Toast.makeText(FlushedActivity.this, "Checked-In", Toast.LENGTH_LONG).show();
+                        if(places.king){
+                            king_message.setVisibility(View.VISIBLE);
+                        }
                     }
                 },
                 new Response.ErrorListener() {

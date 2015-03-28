@@ -142,7 +142,7 @@ public class MainActivity extends ThemedActivity
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_LONG).show();
 
                     }
                 });

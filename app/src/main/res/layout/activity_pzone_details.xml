@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Recent Checkins"
+                    android:text="P'ers"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <com.p2p.ui.HorizontalListView
@@ -77,7 +77,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Royals"
+                    android:text="Royal P'ers"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <com.p2p.ui.HorizontalListView

@@ -69,10 +69,12 @@ import com.p2p.ui.seekbar.PhasedListener;
 import com.p2p.ui.seekbar.PhasedSeekBar;
 import com.p2p.ui.seekbar.SimplePhasedAdapter;
 
+import dev.dworks.libs.actionbarplus.app.ActionBarActivityPlus;
+
 public class InitialFragment extends Fragment implements ConnectionCallbacks,
         OnConnectionFailedListener, LocationListener, OnMapReadyCallback, View.OnClickListener,
         ClusterManager.OnClusterItemClickListener<Place>,
-        ClusterManager.OnClusterItemInfoWindowClickListener<Place>, RoutingListener, PhasedListener {
+        ClusterManager.OnClusterItemInfoWindowClickListener<Place>, RoutingListener, PhasedListener, GoogleMap.OnMapLongClickListener {
 
     public static final int SEARCH_RADIUS = 800;
     private static final String TAG = "InitialFragment";
@@ -306,6 +308,8 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
         getMap().setOnCameraChangeListener(mClusterManager);
         getMap().setOnMarkerClickListener(mClusterManager);
         getMap().setOnInfoWindowClickListener(mClusterManager);
+        getMap().setTrafficEnabled(true);
+        getMap().setOnMapLongClickListener(this);
 
         mClusterManager.setOnClusterItemClickListener(this);
         mClusterManager.setOnClusterItemInfoWindowClickListener(this);
@@ -382,6 +386,24 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
         Intent intent = new Intent(getActivity(), PzoneDetails.class);
         intent.putExtras(bundle);
         getActivity().startActivity(intent);
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+        if(null == currentPlaces){
+            return;
+        }
+        switch (seekbar.getCurrentItem()){
+            case 0:
+                showFlush(currentPlaces.now);
+                break;
+            case 1:
+                showFlush(currentPlaces.can_wait);
+                break;
+            case 2:
+                showFlush(currentPlaces.royal_pee);
+                break;
+        }
     }
 
     public class ReqestTask extends AsyncTask<Void, Void, Location>{
@@ -470,7 +492,7 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
         param.put("gender", "male");
 
         GsonRequest<Places> request = new GsonRequest<Places>(Request.Method.GET,
-                Utils.API_URL + "/places",
+                Utils.API_URL + "/betterplaces",
                 Places.class,
                 null,
                 param,
@@ -507,7 +529,7 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
             return;
         }
         LatLng start = current;
-        Routing routing = new Routing(Routing.TravelMode.DRIVING);
+        Routing routing = new Routing(Routing.TravelMode.WALKING);
         routing.registerListener(this);
         routing.execute(start, destination);
 
@@ -654,17 +676,27 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
         if(null == currentPlaces){
             return;
         }
+        try {
+
         switch (position){
             case 0:
                 drawRestaurantsAround(currentPlaces.now);
+                ((ActionBarActivityPlus)getActivity()).getSupportActionBar().setTitle("Pee right NOW!");
                 break;
             case 1:
                 drawRestaurantsAround(currentPlaces.can_wait);
+                ((ActionBarActivityPlus)getActivity()).getSupportActionBar().setTitle("I Can wait..");
                 break;
             case 2:
                 drawRestaurantsAround(currentPlaces.royal_pee);
+                ((ActionBarActivityPlus)getActivity()).getSupportActionBar().setTitle("Royal Pee");
                 //showFlush(currentPlaces.royal_pee);
                 break;
+        }
+
+        }
+        catch (Exception e){
+
         }
     }
 }

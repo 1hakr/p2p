@@ -1,6 +1,7 @@
 package com.p2p;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -71,11 +73,34 @@ public class PzoneDetails extends ActionBarActivity {
 
         checkins_layout = findViewById(R.id.checkins_layout);
         royals_layout = findViewById(R.id.royals_layout);
+
         mAdapter = new CheckinAdapter(this, R.layout.fragment_menu);
         checkins.setAdapter(mAdapter);
+        checkins.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Utils.BUNDLE_MENU, mAdapter.getItem(position));
+                Intent intent = new Intent(PzoneDetails.this, PFile.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
 
         mAdapter2 = new CheckinAdapter(this, R.layout.fragment_menu);
         royals.setAdapter(mAdapter2);
+
+        royals.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Utils.BUNDLE_MENU, mAdapter.getItem(position));
+                Intent intent = new Intent(PzoneDetails.this, PFile.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
 
     }
 
