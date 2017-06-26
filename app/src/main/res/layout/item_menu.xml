@@ -35,7 +35,16 @@
             android:fontFamily="sans-serif-condensed"
             android:gravity="center"
             android:layout_gravity="center" />
-
+        <TextView
+            android:id="@+id/time"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="middle"
+            android:textColor="@color/grey_cal"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:layout_gravity="center" />
     </LinearLayout>
 
 </FrameLayout>

@@ -209,6 +209,9 @@ public class InitialFragment extends Fragment implements ConnectionCallbacks,
     @Override
     public void onLocationChanged(Location location) {
         if (checkLocationServices()) {
+            if(mGoogleApiClient.isConnected()){
+                fusedLocationProviderApi.removeLocationUpdates(mGoogleApiClient, this);
+            }
             if(pathDrawn){
                 currentLocationSource.onLocationChanged(new LatLng(location.getLatitude(), location.getLongitude()));
             } else {

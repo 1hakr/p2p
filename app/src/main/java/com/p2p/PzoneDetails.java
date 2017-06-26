@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +32,9 @@ import com.p2p.misc.DeviceUuidFactory;
 import com.p2p.misc.Utils;
 import com.p2p.ui.HorizontalListView;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -204,17 +207,20 @@ public class PzoneDetails extends ActionBarActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             TextView info_child_text;
+            TextView info_time;
             ImageView icon_thumb;
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.item_menu, parent, false);
             }
 
             info_child_text = ViewHolder.get(convertView, android.R.id.title);
+            info_time = ViewHolder.get(convertView, R.id.time);
             icon_thumb = ViewHolder.get(convertView, R.id.icon_thumb);
 
             Profile.Checkin menuItem = getItem(position);
             info_child_text.setText(Utils.capitalizeFirstLetter(menuItem.name));
-
+            info_time.setText(formatReviewDate(menuItem.checkedin_at));
+            Log.i(""+position, menuItem.checkedin_at);
             if(null != menuItem.photo_url)
             mImageFetcher.get(menuItem.photo_url, icon_thumb);
 
@@ -237,5 +243,15 @@ public class PzoneDetails extends ActionBarActivity {
             }
             return (T) childView;
         }
+    }
+
+    private String formatReviewDate(String date) {
+        try {
+            Date formatedDate = Utils.simpleDateFormat.parse(date);
+            date = Utils.getRelativeTime(this, formatedDate.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 }

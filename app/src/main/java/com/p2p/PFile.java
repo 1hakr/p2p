@@ -3,12 +3,15 @@ package com.p2p;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
 import android.preference.PreferenceManager;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.graphics.Palette;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.cache.SimpleImageLoader;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.GsonRequest;
+import com.android.volley.toolbox.ImageLoader;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -47,6 +51,7 @@ public class PFile extends ActionBarActivity implements OnMapReadyCallback, Clus
     private TextView name;
     private ImageView thumb;
     private SimpleImageLoader mImageFetcher;
+    private View header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +72,33 @@ public class PFile extends ActionBarActivity implements OnMapReadyCallback, Clus
     }
 
     private void initControls() {
+        header = findViewById(R.id.header);
         name = (TextView)findViewById(R.id.name);
         thumb = (ImageView)findViewById(R.id.thumb);
         name.setText(checkin.name);
-        mImageFetcher.get(checkin.photo_url, thumb);
+        mImageFetcher.get(checkin.photo_url, new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
+                if(null != imageContainer.getBitmap()) {
+                    thumb.setImageBitmap(imageContainer.getBitmap());
+                    Palette.generateAsync(imageContainer.getBitmap(), new Palette.PaletteAsyncListener() {
+                        public void onGenerated(Palette palette) {
+                            try{
+                                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(palette.getVibrantSwatch().getBodyTextColor()));
+                                header.setBackgroundColor(palette.getVibrantSwatch().getBodyTextColor());
+                            }catch (Exception e){
+
+                            }
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
     }
 
     private void init() {

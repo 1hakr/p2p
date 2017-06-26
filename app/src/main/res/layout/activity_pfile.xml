@@ -8,6 +8,7 @@
 
 
     <FrameLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:background="@color/colorPrimary"

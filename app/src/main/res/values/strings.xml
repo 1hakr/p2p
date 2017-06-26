@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
     <string name="app_name">p2p</string>
     <string name="feedback_message">How was your Experience</string>
 
@@ -18,11 +18,20 @@
 
     <string name="title_activity_menu_detail">MenuDetailActivity</string>
     <string name="title_section1">P2P</string>
-    <string name="title_section2">My P\'Zones</string>
-    <string name="title_section3">My P\'File</string>
+    <string name="title_section2">My PeeZones</string>
+    <string name="title_section3">My PeeFile</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="title_activity_flushed">Flushed!</string>
-    <string name="title_activity_pzone_details">P\'Zone Details</string>
-    <string name="title_activity_pfile">P\'File</string>
+    <string name="title_activity_pzone_details">PeeZone Details</string>
+    <string name="title_activity_pfile">PeeFile</string>
+
+    <plurals name="abbrev_num_months_ago">
+        <item quantity="one">"1 month ago"</item>
+        <item quantity="other">"<xliff:g id="COUNT">%d</xliff:g> months ago"</item>
+    </plurals>
+    <plurals name="abbrev_num_years_ago">
+        <item quantity="one">"1 year ago"</item>
+        <item quantity="other">"<xliff:g id="COUNT">%d</xliff:g> years ago"</item>
+    </plurals>
 </resources>

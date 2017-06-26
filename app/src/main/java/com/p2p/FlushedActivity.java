@@ -126,8 +126,8 @@ public class FlushedActivity extends ActionBarActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if(Utils.isActivityAlive(FlushedActivity.this))
-                            Toast.makeText(FlushedActivity.this, "No Check-In", Toast.LENGTH_LONG).show();
+                        //if(Utils.isActivityAlive(FlushedActivity.this))
+                            //Toast.makeText(FlushedActivity.this, "No Check-In", Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -148,8 +148,8 @@ public class FlushedActivity extends ActionBarActivity {
                 new Response.Listener<Feedback>() {
                     @Override
                     public void onResponse(Feedback feedback1) {
-                        if(Utils.isActivityAlive(FlushedActivity.this))
-                            Toast.makeText(FlushedActivity.this, "Feedback give", Toast.LENGTH_LONG).show();
+                        //if(Utils.isActivityAlive(FlushedActivity.this))
+                            //Toast.makeText(FlushedActivity.this, "Feedback give", Toast.LENGTH_LONG).show();
                         Bundle bundle = new Bundle();
                         bundle.putSerializable(Utils.BUNDLE_RESTAURANT, place);
                         Intent intent = new Intent(FlushedActivity.this, PzoneDetails.class);
@@ -161,8 +161,8 @@ public class FlushedActivity extends ActionBarActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if(Utils.isActivityAlive(FlushedActivity.this))
-                            Toast.makeText(FlushedActivity.this, "Feedback Not given", Toast.LENGTH_LONG).show();
+                        //if(Utils.isActivityAlive(FlushedActivity.this))
+                            //Toast.makeText(FlushedActivity.this, "Feedback Not given", Toast.LENGTH_LONG).show();
                     }
                 });
 
